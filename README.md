@@ -7,7 +7,7 @@ Single responsibility is the concept of a Class doing one specific thing aka "re
 Classes often start out with Low Cohesion, but typically after several releases and different developers adding onto them, suddenly you'll notice that it became a **Monster** or **God** class as some call it. So the class should be refactored.
 
 #### this class should not include email validation because that is not related with a person behaviour
-```
+```csharp
 class Person
 {
     public string Name { get; set; }
@@ -40,7 +40,7 @@ class Person
 }
 ```
 #### We can improve the class above by removing the responsibility of email validation from the Person class and creating a new Email class that will have that responsibility:
-```
+```csharp
 class Person
 {
     public string Name { get; set; }
@@ -88,7 +88,7 @@ class Email
 The open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification". such an entity can allow its behavior to be extended without modifying its source code.
 
 #### adding a new shape to this AreaCalculator will require altering the source code and is a violation of the OCP
-```
+```csharp
 public class Square
 {
     public double Height { get; set; }
@@ -141,7 +141,7 @@ public class AreaCalculator
 }
 ```
 #### A better way to tackle the problem is allow the shapes to handle the implementation logic of calculating their own area
-```
+```csharp
 public abstract class Shape
 {
     public abstract double Area();
@@ -185,7 +185,7 @@ public class Triangle: Shape
 
 ## L - The Liskov Substitution Principle
 If S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of the program 
-```
+```csharp
 public class S
 {
   public int DoSomething() => 1;
@@ -246,7 +246,7 @@ Random
 
 Three primary Techniques
 #### Constructor Injection
-```
+```csharp
 public class Solver
 {
   ITool tool;
@@ -259,7 +259,7 @@ public class Solver
 ```
 
 #### Property Injection
-```
+```csharp
 public class Solver
 {
   //Ninject example
@@ -269,7 +269,7 @@ public class Solver
 ```
 
 #### Parameter Injection
-```
+```csharp
 public class Solver
 {
   public Solver()  {  }
