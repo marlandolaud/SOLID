@@ -140,7 +140,7 @@ public class AreaCalculator
     }
 }
 ```
-#### A better way to tackle the problem is allow the shapes to handle the implementation logic of calculating their own Ara
+#### A better way to tackle the problem is allow the shapes to handle the implementation logic of calculating their own area
 ```
 public abstract class Shape
 {
