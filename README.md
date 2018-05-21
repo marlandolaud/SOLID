@@ -13,6 +13,7 @@ class Person
     public string Name { get; set; }
     public string SurName { get; set; }
     public string Email { get; set; }
+    
     public Person(string name, string surName, string email)
     {
         this.SurName = surName;
@@ -44,8 +45,8 @@ class Person
 {
     public string Name { get; set; }
     public string SurName { get; set; }
-
     public Email Email { get; set; }
+    
     public Person(string name, string surName, string email)
     {
         this.SurName = surName;
@@ -85,6 +86,102 @@ class Email
 
 ## O - The Open / Close Principle
 The open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification". such an entity can allow its behavior to be extended without modifying its source code.
+
+#### adding a new shape to this AreaCalculator will require altering the source code and is a violation of the OCP
+```
+public class Square
+{
+    public double Height { get; set; }
+}
+
+public class Circle
+{
+    public double Radius { get; set; }
+}
+
+public class Triangle
+{
+    public double FirstSide { get; set; }
+    public double SecondSide { get; set; }
+    public double ThirdSide { get; set; }
+}
+
+public class AreaCalculator
+{
+    public double Area(object[] shapes)
+    {
+        double area = 0;
+
+        foreach (var shape in shapes)
+        {
+
+            if (shape is Square)
+            {
+                Square square = (Square)shape;
+                area += Math.Sqrt(square.Height);
+            }
+
+            if (shape is Triangle)
+            {
+                Triangle triangle = (Triangle)shape;
+                double TotalHalf = (triangle.FirstSide + triangle.SecondSide + triangle.ThirdSide) / 2;
+                area += Math.Sqrt(TotalHalf * (TotalHalf - triangle.FirstSide) *
+                (TotalHalf - triangle.SecondSide) * (TotalHalf - triangle.ThirdSide));
+            }
+
+            if (shape is Circle)
+            {
+                Circle circle = (Circle)shape;
+                area += circle.Radius * circle.Radius * Math.PI;
+            }
+
+        }
+        return area;
+    }
+}
+```
+#### A better way to tackle the problem is allow the shapes to handle the implementation logic of calculating their own Ara
+```
+public abstract class Shape
+{
+    public abstract double Area();
+        
+}
+
+public class Square: Shape
+{
+    public double Height { get; set; }
+
+    public override double Area()
+    {
+        return Math.Sqrt(Height);
+    }
+}
+
+public class Circle: Shape
+{
+    public double Radius { get; set; }
+
+    public override double Area()
+    {
+        return Radius * Radius * Math.PI;
+    }
+}
+
+public class Triangle: Shape
+{
+    public double FirstSide { get; set; }
+    public double SecondSide { get; set; }
+    public double ThirdSide { get; set; }
+
+    public override double Area()
+    {
+        double TotalHalf = (FirstSide + SecondSide + ThirdSide) / 2;
+        return Math.Sqrt(TotalHalf * (TotalHalf - FirstSide) * (TotalHalf - SecondSide) * (TotalHalf - ThirdSide));
+    }
+}
+
+```
 
 ## L - The Liskov Substitution Principle
 If S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of the program 
@@ -126,7 +223,9 @@ Refactor large interfaces so they inherit smaller interfaces
 Keep interfaces lean and focused
 
 ## D - Dependency Inversion Principle
-### "Don’t call us well call you"
+
+![alt text](https://lh3.googleusercontent.com/60NpYzzxYr4v60JZTR9c__o-7bABBoYI1ff9ancTw42FYlS6MKsWjjyXpMPlQ8g1LzTJ0uVKQMcKvRioCuswfkKMKFoWUKQg23zCQTZJ0-ruGQ1uMJNKDPv-gxV-W5ufHNTIG4ii)
+
 ### "Depend on abstraction instead of concrete types"
 
 The dependency inversion principle refers to a specific form of decoupling software modules.
