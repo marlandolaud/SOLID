@@ -2,13 +2,91 @@
 SOLID Principles of Object Oriented Design Examples for learning
 
 ## S - The Single Responsibility Principle
-The single responsibility principle is a computer programming principle that states that every module or class should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class.
+Single responsibility is the concept of a Class doing one specific thing aka "responsibility" and not trying to do more than it should, which is also referred to as High Cohesion.
+
+Classes often start out with Low Cohesion, but typically after several releases and different developers adding onto them, suddenly you'll notice that it became a **Monster** or **God** class as some call it. So the class should be refactored.
+
+#### this class should not include email validation because that is not related with a person behaviour
+```
+class Person
+{
+    public string Name { get; set; }
+    public string SurName { get; set; }
+    public string Email { get; set; }
+    public Person(string name, string surName, string email)
+    {
+        this.SurName = surName;
+        this.Name = name;
+        if (this.ValidateEmail(email))
+        {
+            this.Email = email;
+        }
+        else
+        {
+            throw new Exception("Invalid email!");
+        }
+    }
+    private bool ValidateEmail(string email)
+    {
+        Regex re = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        return re.IsMatch(email);
+    }
+
+    private void Greet()
+    {
+        Console.WriteLine("Hi!");
+    }
+}
+```
+#### We can improve the class above by removing the responsibility of email validation from the Person class and creating a new Email class that will have that responsibility:
+```
+class Person
+{
+    public string Name { get; set; }
+    public string SurName { get; set; }
+
+    public Email Email { get; set; }
+    public Person(string name, string surName, string email)
+    {
+        this.SurName = surName;
+        this.Name = name;
+        this.Email = new Email(email);
+    }       
+
+    private void Greet()
+    {
+        Console.WriteLine("Hi!");
+    }
+}
+
+class Email
+{
+    public string EmailAddress { get; set; }
+
+    public Email(string email)
+    {
+        if (this.ValidateEmail(email))
+        {
+            this.EmailAddress = email;
+        }
+        else
+        {
+            throw new Exception("Invalid email!");
+        }
+    }
+
+    private bool ValidateEmail(string email)
+    {
+        Regex re = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        return re.IsMatch(email);
+    }
+}
+```
 
 ## O - The Open / Close Principle
-The open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification"; that is, such an entity can allow its behavior to be extended without modifying its source code.
+The open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification". such an entity can allow its behavior to be extended without modifying its source code.
 
 ## L - The Liskov Substitution Principle
-
 If S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of the program 
 ```
 public class S
