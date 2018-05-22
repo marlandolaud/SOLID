@@ -194,7 +194,7 @@ Child class must not:
 
 Calling code should not know that there is a difference between derived class and a base type
 
-LSP Tips:
+#### LSP Tips:
 **Tell, Don't Ask** : Don't Interrogate objects for their internals - move behavior to the object; tell the object what you want it to do.
 
 **Conceder Refactoring to a new base class** given two classes that share a lot of behavior but are not substitutable
