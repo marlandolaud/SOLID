@@ -6,7 +6,7 @@ Single responsibility is the concept of a Class doing one specific thing aka "re
 
 Classes often start out with Low Cohesion, but typically after several releases and different developers adding onto them, suddenly you'll notice that it became a **Monster** or **God** class as some call it. So the class should be refactored.
 
-#### this class should not include email validation because that is not related with a person behaviour
+#### This class should not include email validation because that is not related with a person behavior
 ```csharp
 class Person
 {
@@ -213,7 +213,7 @@ Tell don’t ask
 
 Consider refactor to a base class if 
 
-## I - the Interface Segregation principle
+## I - The Interface Segregation principle
 The interface-segregation principle (ISP) states that no client should be forced to depend on methods it does not use. ISP splits interfaces that are very large into smaller and more specific ones so that clients will only have to know about the methods that are of interest to them.
 
 Avoid fat interfaces and forcing users to initialize code to execute one method
