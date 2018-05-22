@@ -184,34 +184,20 @@ public class Triangle: Shape
 ```
 
 ## L - The Liskov Substitution Principle
-If S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of the program 
-```csharp
-public class S
-{
-  public int DoSomething() => 1;
-}
+If S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of the program. objects of type T may be substituted with any object of a subtype S
 
-public class T : S
-{
-  public int DoSomething() => 2;
-}
+Child class must not:
+1) Remove base class behavior
+2) Violate base class **invariants** (reasonable assumptions of behavior by clients)
 
-public class Reader
-{
-  public void Caller(S input) // objects of type T may be substituted with any object of a subtype S
-  {
-    //logic goes here
-  }
-}
-```
+**IS-A** should be substituted for **IS substitutable for**
 
 Calling code should not know that there is a difference between derived class and a base type
 
-Child class must not violate base class reasonable assumptions of behavior by clients also known as invariants
+LSP Tips:
+**Tell, Don't Ask** : Don't Interrogate objects for their internals - move behavior to the object; tell the object what you want it to do.
 
-Tell don’t ask
-
-Consider refactor to a base class if 
+**Conceder Refactoring to a new base class** given two classes that share a lot of behavior but are not substitutable
 
 ## I - The Interface Segregation principle
 The interface-segregation principle (ISP) states that no client should be forced to depend on methods it does not use. ISP splits interfaces that are very large into smaller and more specific ones so that clients will only have to know about the methods that are of interest to them.
