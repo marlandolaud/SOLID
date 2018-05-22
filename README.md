@@ -304,17 +304,16 @@ public class Solver
 }
 ```
 
-#### Property Injection
+#### Property Injection (using Ninject)
 ```csharp
 public class Solver
 {
-  //Ninject example
   [Inject]
   public ITool tool { private get; set; }
 }
 ```
 
-#### Parameter Injection
+#### Parameter Injection (using Ninject)
 ```csharp
 public class Solver
 {
