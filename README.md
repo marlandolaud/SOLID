@@ -208,6 +208,64 @@ Refactor large interfaces so they inherit smaller interfaces
 
 Keep interfaces lean and focused
 
+#### Not The Best
+```csharp
+public interface IMessage
+{
+    IList<String> ToAddresses { get; set; }
+    string MessageBody { get; set; }
+    string Subject { get; set; }
+    bool Send();
+}
+
+public class SmtpMessage:IMessage
+{
+    public IList<String> ToAddresses { get; set; }
+    public string MessageBody { get; set; }
+    public string Subject { get; set; }
+
+    public bool Send()
+    {
+        //Do the real work here
+        return true;
+    }
+}
+```
+#### Better
+```csharp
+public interface IMessage
+{
+    bool Send(IList<String> toAddresses, string messageBody);
+}
+
+public interface IEmailMessage:IMessage
+{
+    string Subject { get; set; }
+    IList<String> BccAddresses { get; set; }
+}
+
+public class SmtpMessage : IEmailMessage
+{
+    public IList<String> BccAddresses { get; set; }
+    public string Subject { get; set; }
+    public bool Send(IList<String> toAddresses, string messageBody)
+    {
+        //Do the real work here
+        return true;
+    }
+}
+
+public class SmsMessage : IMessage
+{
+    public bool Send(IList<String> toAddresses, string messageBody)
+    {
+        //Do the real work here
+        return true;
+    }
+}
+```
+The larger the interface, the more likely it is that you will need to change clients in the future.
+
 ## D - Dependency Inversion Principle
 
 ![alt text](https://lh3.googleusercontent.com/60NpYzzxYr4v60JZTR9c__o-7bABBoYI1ff9ancTw42FYlS6MKsWjjyXpMPlQ8g1LzTJ0uVKQMcKvRioCuswfkKMKFoWUKQg23zCQTZJ0-ruGQ1uMJNKDPv-gxV-W5ufHNTIG4ii)
@@ -216,19 +274,21 @@ Keep interfaces lean and focused
 
 The dependency inversion principle refers to a specific form of decoupling software modules.
 
-#### A dependency is something that affects the behavior of the application
-Framework
-Third-party library
-Database
-File system
-Email
-Web service
-Sys resources
-Config
-The new keyword
-Static methods
-Thread. Sleep
-Random
+**A dependency is something that affects the behavior of the application** 
+(Framework, Third-party library, Database, File system, Email, Web service, Sys resources, Config, The new keyword, Static methods, Thread.Sleep, Random)
+
+#### Not the best
+```csharp
+public class Solver
+{
+  ITool tool;
+  
+  public Solver()
+  {
+    this.tool = new Hammer();    
+  }
+}
+```
 
 Three primary Techniques
 #### Constructor Injection
@@ -260,6 +320,7 @@ public class Solver
 {
   public Solver()  {  }
   
+  [Inject]
   public int Hack(ITool tool)
   {
     return tool.Hack();
