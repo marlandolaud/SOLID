@@ -301,6 +301,11 @@ public class Solver
   {
     this.tool = tool;
   }
+  
+  public void DoSomething()
+  {
+    tool.UseTool();
+  }
 }
 ```
 
@@ -310,6 +315,11 @@ public class Solver
 {
   [Inject]
   public ITool tool { private get; set; }
+  
+  public void DoSomething()
+  {
+    tool.UseTool();
+  }
 }
 ```
 
@@ -317,17 +327,15 @@ public class Solver
 ```csharp
 public class Solver
 {
-  public Solver()  {  }
-  
   [Inject]
-  public int Hack(ITool tool)
+  public void DoSomething(ITool tool)
   {
-    return tool.Hack();
+    tool.UseTool();
   }
 }
 ```
 
-The new keyword can be a DIP smell if it is not a primitive type
+The new keyword can be a DIP smell if it is not a primitive type **"new is glue"**
 
 Don’t force high-level modules to depend on low-level modules through direct instantiation or static method calls
 
